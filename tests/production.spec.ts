@@ -43,6 +43,25 @@ test('estimate provides a direct contact path while delivery is unavailable', as
   await expect(page.locator('body')).toContainText('Online requests are temporarily unavailable.');
 });
 
+
+for (const route of ['/', '/reviews']) {
+  test('Google review cards stay bounded on ' + route, async ({ page }) => {
+    await page.goto(route);
+    const card = page.locator('.google-review-card').first();
+    const avatar = page.locator('.google-review-card__avatar').first();
+    const platform = page.locator('.google-review-card__platform').first();
+    await expect(card).toBeVisible();
+    await expect(avatar).toBeVisible();
+    await expect(platform).toBeVisible();
+    const avatarBox = await avatar.boundingBox();
+    const platformBox = await platform.boundingBox();
+    expect(avatarBox?.width ?? 999).toBeLessThanOrEqual(60);
+    expect(avatarBox?.height ?? 999).toBeLessThanOrEqual(60);
+    expect(platformBox?.width ?? 999).toBeLessThanOrEqual(90);
+    expect(platformBox?.height ?? 999).toBeLessThanOrEqual(40);
+  });
+}
+
 test('legacy article redirect declarations are shipped in the static asset bundle', async ({ request }) => {
   const response = await request.get('/_redirects');
   expect([404, 200]).toContain(response.status());
