@@ -15,9 +15,9 @@ The contact email remains `ecfoam@outlook.com`.
 
 - Visible contact email: `ecfoam@outlook.com`.
 - Estimate destination: `ecfoam@outlook.com`.
-- Worker sender: `website@eastcoastfoamllc.com`.
-- Cloudflare **Email Sending** may be onboarded for the ECF domain.
-- Do **not** enable Cloudflare Email Routing or replace the current root MX/SPF records.
+- Worker sender: `website@notify.eastcoastfoamllc.com`.
+- Cloudflare **Email Sending** should be onboarded only for `notify.eastcoastfoamllc.com`, isolating transactional website mail from the existing apex-domain mail system.
+- Do **not** enable Cloudflare Email Routing or replace the current root MX/SPF/DMARC records. The `notify` subdomain receives its own sending authentication records.
 - Email attachments are limited to 4 MB total.
 - Production release remains blocked until a real preview submission is received successfully.
 
