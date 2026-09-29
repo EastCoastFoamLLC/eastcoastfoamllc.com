@@ -82,3 +82,19 @@ Known mail records that must be preserved unless superseded by verified owner ch
 - New-zone defaults read from Cloudflare: SSL mode `full`, automatic HTTPS rewrites on, Always Use HTTPS off, TLS 1.3 on, minimum TLS 1.0, and DNSSEC disabled. Review TLS settings for the production Worker route before release.
 - A public lookup found no DS record at the `.com` parent, but GoDaddy's delegated DNS-management link redirected to a sign-in page. Check DNSSEC and nameservers inside GoDaddy after the authorized user completes that sign-in; do not treat the public lookup as a substitute for registrar review.
 - Remaining gates: Worker preview, real form delivery, DNSSEC/DS confirmation in GoDaddy, complete mail/service review, production indexing release, and final rollback evidence.
+
+## Production recovery — 2026-09-29
+
+The owner completed the nameserver cutover to christina.ns.cloudflare.com and javon.ns.cloudflare.com. The new zone is active. Do not change nameservers again during routine recovery.
+
+Initial GitHub build 716b2a29-a788-4f4a-a4eb-51d22f2113f3 succeeded and deployed Worker version 4babcdeb-d13d-4ddb-a04e-ab3fbdaae38f at https://eastcoastfoamllc.ecfoam.workers.dev. Both apex and www custom domains have been attached; Cloudflare created managed proxied AAAA placeholders with origin_worker_id metadata. These managed records must not be edited as ordinary origin records.
+
+The public estimate page temporarily offers phone (843) 263-4933 and ecfoam@outlook.com only. The interactive form is retained in source but is not rendered, and the unproven ECF_INBOX binding is removed from deployment configuration. The API returns 503 with the direct contact alternative. Real Outlook delivery, visitor Reply-To, and attachment receipt remain unproven; restore the form/binding only after sender onboarding and end-to-end delivery verification without changing apex mail or buying a plan.
+
+Worker routing handles www and HTTP canonical redirects before assets, preserving path and query. Both custom domains are recorded in wrangler.jsonc. Wrangler is now ^4.144.0 with package-lock updated, satisfying the >=4.135.0 Preview Builds requirement. Preview builds will be enabled after CI and production smoke verification.
+
+Authoritative new-name-server responses preserve mail A 205.209.100.70, apex MX priority 10, and exact existing SPF. Public parent DS is absent; the owner independently reported no DS. Legacy ftp/pop/smtp service usage is still unconfirmed; do not guess origins. The preserved mail hostname remains available.
+
+The earlier pending-zone instructions above are historical checkpoints. Production recovery now takes priority; indexing will be released only after the current production deployment passes route/media/TLS smoke checks.
+
+Rollback: use customer-owned Worker versions and GitHub revert/redeployment with these custom domains. Version 4babcdeb-d13d-4ddb-a04e-ab3fbdaae38f is the first working customer-owned asset deployment, but its form delivery is unproven. The former jack/meg nameservers are historical emergency evidence only, not a routine rollback plan after the owner cutover. Keep WordPress available during stabilization.

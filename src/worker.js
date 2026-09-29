@@ -52,12 +52,23 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    if (url.hostname === 'www.eastcoastfoamllc.com' ||
+        (url.hostname === 'eastcoastfoamllc.com' && url.protocol === 'http:')) {
+      url.hostname = 'eastcoastfoamllc.com';
+      url.protocol = 'https:';
+      return Response.redirect(url.toString(), 301);
+    }
+
     if (url.pathname !== '/api/estimate') {
       return env.ASSETS.fetch(request);
     }
 
     if (request.method !== 'POST') {
       return json({ ok: false, error: 'Method not allowed.' }, 405);
+    }
+
+    if (!env.ECF_INBOX) {
+      return json({ ok: false, error: 'Online requests are temporarily unavailable. Please call (843) 263-4933 or email ecfoam@outlook.com.' }, 503);
     }
 
     const origin = request.headers.get('Origin');

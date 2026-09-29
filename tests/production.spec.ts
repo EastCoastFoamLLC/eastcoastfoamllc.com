@@ -34,12 +34,13 @@ test('current proven public email is used', async ({ page }) => {
   await expect(page.locator('body')).not.toContainText('hello@eastcoastfoamllc.com');
 });
 
-test('guided estimate presents the production send flow', async ({ page }) => {
+test('estimate provides a direct contact path while delivery is unavailable', async ({ page }) => {
   await page.goto('/get-a-quote');
   const form = page.locator('[data-estimate-form]');
-  await expect(form).toHaveCount(1);
-  await expect(page.locator('body')).toContainText('Your request will be sent to East Coast Foam');
-  await expect(page.locator('body')).not.toContainText('Interactive preview — nothing entered here is sent yet.');
+  await expect(form).toHaveCount(0);
+  await expect(page.getByRole('main').getByRole('link', { name: 'Call (843) 263-4933', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Email ecfoam@outlook.com', exact: true })).toBeVisible();
+  await expect(page.locator('body')).toContainText('Online requests are temporarily unavailable.');
 });
 
 test('legacy article redirect declarations are shipped in the static asset bundle', async ({ request }) => {
