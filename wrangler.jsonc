@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "eastcoastfoamllc",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-29",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"],
+    "not_found_handling": "404-page",
+    "html_handling": "drop-trailing-slash"
+  },
+  "send_email": [
+    {
+      "name": "ECF_INBOX",
+      "destination_address": "ecfoam@outlook.com"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "East Coast Foam LLC",
+  "shortName": "East Coast Foam",
+  "tagline": "Where quality and energy efficiency collide",
+  "phoneDisplay": "(843) 263-4933",
+  "phoneHref": "+18432634933",
+  "currentEmail": "ecfoam@outlook.com",
+  "publicEmail": "ecfoam@outlook.com",
+  "quoteEmail": "ecfoam@outlook.com",
+  "address": "1352 Trask Pkwy, Seabrook, SC 29940",
+  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=East+Coast+Foam+LLC+1352+Trask+Pkwy+Seabrook+SC+29940",
+  "hours": "Mon–Fri: 8am–5pm · Sat–Sun: Closed",
+  "facebook": "https://www.facebook.com/foamit247",
+  "serviceAreas": [
+    "Beaufort",
+    "Hilton Head",
+    "Lady's Island",
+    "Bluffton",
+    "Savannah, GA",
+    "Edisto",
+    "Hampton County",
+    "Charleston",
+    "North Charleston",
+    "Mount Pleasant"
+  ]
+}
