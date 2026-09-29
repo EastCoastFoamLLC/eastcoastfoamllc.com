@@ -1,16 +1,20 @@
 ---
 import FutureLayout from '../layouts/FutureLayout.astro';
+import FutureGuidedEstimate from '../components/FutureGuidedEstimate.astro';
+import { futureContact } from '../data/future-content';
 ---
-<FutureLayout title="Guided Estimate | East Coast Foam" description="Explore an East Coast Foam estimate request by sharing the project, property, timing, optional photos or plans, and contact preferences." estimatePage>
-  <section class="future-v1__guided-estimate" aria-labelledby="estimate-title">
-    <header class="future-v1__guided-estimate-intro">
-      <p class="future-v1__kicker">Request an estimate</p>
-      <h1 id="estimate-title">Tell us about the project.</h1>
-      <p>Call or email East Coast Foam to discuss your project and request an estimate.</p>
-      <p>Online requests are temporarily unavailable. Please contact us directly so your request reaches our team.</p>
-      <p><a class="future-v1__estimate-button" href="tel:+18432634933">Call (843) 263-4933</a></p>
-      <p><a href="mailto:ecfoam@outlook.com?subject=Estimate%20request">Email ecfoam@outlook.com</a></p>
-      <p>Include your name, phone number, project location, service needed, and preferred timing. You can attach photos or plans to your email.</p>
-    </header>
+<FutureLayout title="Guided Estimate | East Coast Foam" description="Request an East Coast Foam estimate by sharing the project, property, timing, optional photos or plans, and contact preferences." estimatePage>
+  <FutureGuidedEstimate />
+  <section class="future-v1__estimate" aria-label="Direct estimate contact">
+    <div>
+      <p class="future-v1__kicker">Prefer to talk directly?</p>
+      <h2>Call or email East Coast Foam.</h2>
+      <p>The guided form sends the same project details to Casey's East Coast Foam inbox. You can also reach out directly at any time.</p>
+    </div>
+    <div class="future-v1__estimate-actions">
+      <a class="future-v1__estimate-button" href={`mailto:${futureContact.publicEmail}?subject=Estimate%20request`}>Email East Coast Foam <span aria-hidden="true">→</span></a>
+      <a href={`tel:${futureContact.phoneHref}`}>Call {futureContact.phoneDisplay}</a>
+      <small>{futureContact.publicEmail}</small>
+    </div>
   </section>
 </FutureLayout>
