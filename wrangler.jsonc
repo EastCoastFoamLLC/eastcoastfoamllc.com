@@ -11,6 +11,7 @@
     "html_handling": "drop-trailing-slash"
   },
   "workers_dev": true,
+  "previews": {},
   "routes": [
     { "pattern": "eastcoastfoamllc.com", "custom_domain": true },
     { "pattern": "www.eastcoastfoamllc.com", "custom_domain": true }
