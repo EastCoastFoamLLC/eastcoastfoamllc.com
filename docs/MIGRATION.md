@@ -43,3 +43,29 @@ Do not route `eastcoastfoamllc.com` to this deployment until:
 8. Cloudflare Email Routing is enabled only for notify.eastcoastfoamllc.com; ecfoam@outlook.com remains a verified destination; the Worker send_email binding succeeds on Workers Free; and a real preview estimate reaches Casey's Outlook inbox.
 9. The release PR removes staging noindex/robots blocking and adds/validates sitemap/indexing controls.
 10. Cutover and rollback evidence are recorded in LDW business-operations #333.
+
+
+## Cloudflare ownership recovery
+
+The live domain is currently delegated to an inaccessible legacy Cloudflare account. The customer-owned Cloudflare account is the authoritative future account.
+
+Recovery procedure:
+
+1. Onboard `eastcoastfoamllc.com` into the customer-owned Cloudflare account and keep the zone pending while records are reconstructed.
+2. Use Cloudflare quick scan as a starting point only; manually verify mail and service records before activation.
+3. Do not copy current public Cloudflare edge IPs into the new zone as an origin.
+4. Preserve the current legacy nameservers as short-term rollback evidence:
+   - `jack.ns.cloudflare.com`
+   - `meg.ns.cloudflare.com`
+5. Deploy and validate the production Worker on `workers.dev` before registrar cutover.
+6. Verify GoDaddy DNSSEC/DS state before changing nameservers.
+7. Change GoDaddy nameservers only after the pending-zone DNS review and Worker preview gates pass.
+8. Attach the apex and `www` custom domains to the Worker as soon as the new zone becomes active.
+9. Validate website, redirects, TLS, and mail immediately.
+10. Reverting to the old nameservers is an emergency short-term rollback only; do not depend on the inaccessible legacy zone for long-term recovery.
+
+Known mail records that must be preserved unless superseded by verified owner changes:
+
+- MX `@` -> `mail.eastcoastfoamllc.com` priority 10
+- A `mail` -> `205.209.100.70`
+- SPF `v=spf1 a mx ip4:205.209.100.70 include:relay.mailbaby.net ~all`
