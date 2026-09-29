@@ -16,8 +16,8 @@ The contact email remains `ecfoam@outlook.com`.
 - Visible contact email: `ecfoam@outlook.com`.
 - Estimate destination: `ecfoam@outlook.com`.
 - Worker sender: `website@notify.eastcoastfoamllc.com`.
-- Cloudflare **Email Sending** should be onboarded only for `notify.eastcoastfoamllc.com`, isolating transactional website mail from the existing apex-domain mail system.
-- Do **not** enable Cloudflare Email Routing or replace the current root MX/SPF/DMARC records. The `notify` subdomain receives its own sending authentication records.
+- Cloudflare **Email Routing** should be enabled only for `notify.eastcoastfoamllc.com`. The verified destination `ecfoam@outlook.com` can then be used by the Worker's `send_email` binding on the Workers Free plan.
+- Do **not** onboard the apex `eastcoastfoamllc.com` domain to Cloudflare Email Routing and do not replace its current MX/SPF/DMARC records. Add only the `notify` subdomain under Email Routing so its DNS records are isolated from Casey's existing mail system.
 - Email attachments are limited to 4 MB total.
 - Production release remains blocked until a real preview submission is received successfully.
 
@@ -40,6 +40,6 @@ Do not route `eastcoastfoamllc.com` to this deployment until:
 5. WordPress rollback remains available.
 6. Custom-domain SSL/routing is verified.
 7. No placeholder/demo/concept content is present.
-8. Cloudflare Email Sending is onboarded without replacing the existing root MX; ecfoam@outlook.com is verified as the destination; and a real preview estimate reaches Casey's Outlook inbox.
+8. Cloudflare Email Routing is enabled only for notify.eastcoastfoamllc.com; ecfoam@outlook.com remains a verified destination; the Worker send_email binding succeeds on Workers Free; and a real preview estimate reaches Casey's Outlook inbox.
 9. The release PR removes staging noindex/robots blocking and adds/validates sitemap/indexing controls.
 10. Cutover and rollback evidence are recorded in LDW business-operations #333.
