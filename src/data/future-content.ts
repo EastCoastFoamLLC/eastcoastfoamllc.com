@@ -76,7 +76,7 @@ const serviceDetails: Record<string, Omit<FutureService, keyof (typeof services)
 
 export const futureServices: FutureService[] = services.map((service) => ({
   ...service,
-  futurePath: `/future/${service.slug}`,
+  futurePath: `/${service.slug}`,
   productionPath: `/${service.slug}`,
   ...serviceDetails[service.slug]
 }));
@@ -118,8 +118,7 @@ export const futureAboutPoints = [
   { title: 'Connected services', text: 'Insulation, removal, roofing foam, and coating services can be discussed together when the project calls for it.' }
 ];
 
-// Owner-confirmed Future contact details. The public-facing preview email remains
-// the approved hello address.
+// Owner-confirmed production contact details. Public contact and form delivery use Casey's Outlook inbox.
 export const futureContact = {
   phoneDisplay: '(843) 263-4933',
   phoneHref: '+18432634933',
