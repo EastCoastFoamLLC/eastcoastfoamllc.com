@@ -23,7 +23,7 @@ The contact email remains `ecfoam@outlook.com`.
 
 ## Legacy media dependency
 
-The current approved images are still served from the legacy WordPress host. Before WordPress retirement, approved originals must be copied into customer-owned storage/repository assets, references updated, and the site revalidated.
+The 38 approved images referenced by `src/data/site-assets.json` have been copied from the live WordPress host into `public/media/legacy/`, and those references now use local paths. Keep the source files in this repository so the replacement site does not depend on WordPress for its imagery. Revalidate their rendering in the customer-owned Worker preview.
 
 ## Legacy URL preservation
 
@@ -69,3 +69,14 @@ Known mail records that must be preserved unless superseded by verified owner ch
 - MX `@` -> `mail.eastcoastfoamllc.com` priority 10
 - A `mail` -> `205.209.100.70`
 - SPF `v=spf1 a mx ip4:205.209.100.70 include:relay.mailbaby.net ~all`
+
+### Pending-zone checkpoint — 2026-09-29
+
+- Customer account: `Ecfoam@outlook.com's Account`; zone status: **pending** on the Free plan.
+- Assigned new nameservers: `christina.ns.cloudflare.com` and `javon.ns.cloudflare.com`.
+- Registrar still delegates to the old `jack.ns.cloudflare.com` and `meg.ns.cloudflare.com` nameservers; no GoDaddy change has been made.
+- Cloudflare Quick Scan imported 19 records: 11 A, 6 AAAA, 1 MX, and 1 TXT. Sixteen A/AAAA records pointed at the old Cloudflare **edge** addresses (`104.21.89.252`, `172.67.166.190`, `2606:4700:3033::6815:59fc`, and `2606:4700:3035::ac43:a6be`). These were removed from the pending zone because they are not origin addresses.
+- The imported `mail` A record was changed to **DNS only**. The three remaining pending-zone records are A `mail` -> `205.209.100.70` (DNS only), MX `@` -> `mail.eastcoastfoamllc.com` priority 10, and the existing apex SPF TXT. Recheck the SPF text as served by the new nameservers before cutover.
+- The new zone has no apex or `www` website record yet. Attach those hostnames to the validated customer-owned Worker before changing nameservers.
+- The scan also found only edge-address placeholders for `ftp`, `pop`, and `smtp`. Confirm whether any of those names are in use before cutover; do not recreate them by guessing an origin.
+- Remaining gates: Worker preview, real form delivery, DNSSEC/DS confirmation in GoDaddy, complete mail/service review, production indexing release, and final rollback evidence.
