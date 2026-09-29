@@ -34,14 +34,32 @@ test('current proven public email is used', async ({ page }) => {
   await expect(page.locator('body')).not.toContainText('hello@eastcoastfoamllc.com');
 });
 
-test('estimate provides a direct contact path while delivery is unavailable', async ({ page }) => {
+test('guided estimate form is available and targets East Coast Foam delivery', async ({ page }) => {
   await page.goto('/get-a-quote');
   const form = page.locator('[data-estimate-form]');
-  await expect(form).toHaveCount(0);
-  await expect(page.getByRole('main').getByRole('link', { name: 'Call (843) 263-4933', exact: true })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Email ecfoam@outlook.com', exact: true })).toBeVisible();
-  await expect(page.locator('body')).toContainText('Online requests are temporarily unavailable.');
+  await expect(form).toHaveCount(1);
+  await expect(page.locator('body')).toContainText('Your request will be sent to East Coast Foam');
+  await expect(page.getByRole('link', { name: /Email East Coast Foam/ })).toHaveAttribute('href', /mailto:ecfoam@outlook\.com/);
+  await expect(page.locator('body')).not.toContainText('Online requests are temporarily unavailable.');
 });
+
+for (const route of ['/', '/reviews']) {
+  test('Google review cards stay bounded on ' + route, async ({ page }) => {
+    await page.goto(route);
+    const card = page.locator('.google-review-card').first();
+    const avatar = page.locator('.google-review-card__avatar').first();
+    const platform = page.locator('.google-review-card__platform').first();
+    await expect(card).toBeVisible();
+    await expect(avatar).toBeVisible();
+    await expect(platform).toBeVisible();
+    const avatarBox = await avatar.boundingBox();
+    const platformBox = await platform.boundingBox();
+    expect(avatarBox?.width ?? 999).toBeLessThanOrEqual(60);
+    expect(avatarBox?.height ?? 999).toBeLessThanOrEqual(60);
+    expect(platformBox?.width ?? 999).toBeLessThanOrEqual(90);
+    expect(platformBox?.height ?? 999).toBeLessThanOrEqual(40);
+  });
+}
 
 test('legacy article redirect declarations are shipped in the static asset bundle', async ({ request }) => {
   const response = await request.get('/_redirects');
