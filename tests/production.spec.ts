@@ -18,7 +18,7 @@ for (const [route, heading] of routes) {
     await page.goto(route);
     await expect(page.getByRole('heading', { level: 1 })).toContainText(heading);
     await expect(page.locator('body')).not.toContainText(/SAMPLE STORY|portrait placeholder|Owner Workspace|Project Capture/i);
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index,follow');
   });
 }
 
