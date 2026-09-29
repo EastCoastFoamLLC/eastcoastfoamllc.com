@@ -39,7 +39,7 @@ test('guided estimate form is available with direct contact fallback', async ({ 
   const form = page.locator('[data-estimate-form]');
   await expect(form).toHaveCount(1);
   await expect(page.locator('body')).toContainText('Your request will be sent to East Coast Foam');
-  await expect(page.getByRole('link', { name: /Email East Coast Foam/ })).toHaveAttribute('href', /mailto:ecfoam@outlook\.com/);
+  await expect(page.getByRole('link', { name: /Email East Coast Foam/ }).first()).toHaveAttribute('href', /mailto:ecfoam@outlook\.com/);
   await expect(page.locator('body')).not.toContainText('Online requests are temporarily unavailable.');
 });
 
