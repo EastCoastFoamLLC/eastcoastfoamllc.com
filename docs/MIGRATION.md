@@ -16,8 +16,8 @@ The contact email remains `ecfoam@outlook.com`.
 - Visible contact email: `ecfoam@outlook.com`.
 - Estimate destination: `ecfoam@outlook.com`.
 - Worker sender: `website@notify.eastcoastfoamllc.com`.
-- Cloudflare **Email Routing** should be enabled only for `notify.eastcoastfoamllc.com`. The verified destination `ecfoam@outlook.com` can then be used by the Worker's `send_email` binding on the Workers Free plan.
-- Do **not** onboard the apex `eastcoastfoamllc.com` domain to Cloudflare Email Routing and do not replace its current MX/SPF/DMARC records. Add only the `notify` subdomain under Email Routing so its DNS records are isolated from Casey's existing mail system.
+- Cloudflare documents free Worker sends to a verified destination address, but the sender must belong to an Email Service onboarded domain. `ecfoam@outlook.com` is verified; the sender domain `notify.eastcoastfoamllc.com` is not onboarded or proven yet.
+- Do **not** onboard the apex `eastcoastfoamllc.com` domain to Email Routing or replace its current MX/SPF/DMARC records. Cloudflare's apex routing setup proposes different MX and SPF records. Investigate whether the `notify` subdomain can be onboarded without touching apex mail; if it cannot, choose a separate approved transport or a temporary contact path before cutover. Do not buy Workers Paid automatically.
 - Email attachments are limited to 4 MB total.
 - Production release remains blocked until a real preview submission is received successfully.
 
@@ -40,7 +40,7 @@ Do not route `eastcoastfoamllc.com` to this deployment until:
 5. WordPress rollback remains available.
 6. Custom-domain SSL/routing is verified.
 7. No placeholder/demo/concept content is present.
-8. Cloudflare Email Routing is enabled only for notify.eastcoastfoamllc.com; ecfoam@outlook.com remains a verified destination; the Worker send_email binding succeeds on Workers Free; and a real preview estimate reaches Casey's Outlook inbox.
+8. The sender domain is onboarded without changing apex mail; the Worker send_email binding succeeds on Workers Free; and a real preview estimate reaches Casey's Outlook inbox. If that is unavailable, provide a clearly working temporary contact path and keep the form disabled until delivery is proven.
 9. The release PR removes staging noindex/robots blocking and adds/validates sitemap/indexing controls.
 10. Cutover and rollback evidence are recorded in LDW business-operations #333.
 
@@ -79,4 +79,6 @@ Known mail records that must be preserved unless superseded by verified owner ch
 - The imported `mail` A record was changed to **DNS only**. The three remaining pending-zone records are A `mail` -> `205.209.100.70` (DNS only), MX `@` -> `mail.eastcoastfoamllc.com` priority 10, and the existing apex SPF TXT. Recheck the SPF text as served by the new nameservers before cutover.
 - The new zone has no apex or `www` website record yet. Attach those hostnames to the validated customer-owned Worker before changing nameservers.
 - The scan also found only edge-address placeholders for `ftp`, `pop`, and `smtp`. Confirm whether any of those names are in use before cutover; do not recreate them by guessing an origin.
+- New-zone defaults read from Cloudflare: SSL mode `full`, automatic HTTPS rewrites on, Always Use HTTPS off, TLS 1.3 on, minimum TLS 1.0, and DNSSEC disabled. Review TLS settings for the production Worker route before release.
+- A public lookup found no DS record at the `.com` parent, but GoDaddy's delegated DNS-management link redirected to a sign-in page. Check DNSSEC and nameservers inside GoDaddy after the authorized user completes that sign-in; do not treat the public lookup as a substitute for registrar review.
 - Remaining gates: Worker preview, real form delivery, DNSSEC/DS confirmation in GoDaddy, complete mail/service review, production indexing release, and final rollback evidence.
