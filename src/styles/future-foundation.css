@@ -455,3 +455,43 @@ html:has(.future-v1)::-webkit-scrollbar-thumb { border:3px solid #edf0eb; border
 .future-concept__capture-stage { width:min(1300px,calc(100% - 48px)); }.future-concept__capture-panel { min-height:406px; border-top:3px solid #6ea374; }.future-concept__capture-panel--photos { background:#f4f6f0; }.future-concept__capture-panel--review { background:#e7eee4; }
 @media (max-width:960px) { .future-v1__review-intro,.future-v1__review-proof-grid,.future-v1__founder-sample,.future-v1__guide-compare,.future-v1__guide-framework,.future-v1__guide-explainer,.future-v1__guide-lowcountry { grid-template-columns:1fr; gap:30px; }.future-v1__service-area-note { grid-template-columns:1fr; gap:10px; }.future-v1__service-area-note a { margin-top:7px; }.future-v1__guide-card-grid { grid-template-columns:1fr; }.future-v1__guide-sources { grid-template-columns:1fr; }.future-v1__guide-sources>div { grid-column:auto; }.future-concept__workspace-grid { grid-template-columns:repeat(2,1fr); }.future-concept__vision figcaption { grid-template-columns:1fr; gap:16px; } }
 @media (max-width:650px) { .future-v1__hero-copy { padding-top:58px; }.future-v1__call-link { width:100%; }.future-v1__review-proof-grid { margin-top:18px; }.future-v1__review-spotlight { min-height:0; }.future-v1__service-area-note { width:auto; padding:21px; }.future-v1__founder-sample { padding:76px 23px; }.future-v1__founder-sample-portrait { min-height:280px; }.future-v1__guide-compare,.future-v1__guide-framework { margin-top:70px; padding:28px 23px; }.future-v1__guide-compare-table>div,.future-v1__guide-framework .future-v1__guide-compare-table>div { grid-template-columns:1fr; gap:8px; }.future-v1__guide-article-grid { grid-template-columns:1fr; }.future-concept__switcher { width:calc(100% - 32px); flex-direction:column; }.future-concept__switcher a { max-width:none; }.future-concept__vision { width:calc(100% - 32px); }.future-concept__vision figcaption { padding:23px; }.future-concept__workspace-grid { grid-template-columns:1fr; }.future-concept__capture-stage { width:calc(100% - 32px); } }
+
+
+/* Production hotfix — review carousel structural layout.
+   The Future layer previously carried only theme overrides, so unbounded Google
+   platform/avatar images could render at intrinsic size after the clean-history migration. */
+.google-review-carousel { min-width:0; }
+.google-review-carousel__bar { display:flex; align-items:center; justify-content:space-between; gap:18px; }
+.google-review-carousel__summary { display:flex; min-width:0; align-items:center; gap:14px; }
+.google-review-carousel__summary img { display:block; flex:0 0 auto; width:120px; max-width:120px; height:36px; object-fit:contain; }
+.google-review-carousel__summary div { display:grid; gap:2px; min-width:0; }
+.google-review-carousel__summary strong { font-size:14px; line-height:1.2; }
+.google-review-carousel__summary span { font-size:11px; line-height:1.3; }
+.google-review-carousel__controls { display:flex; flex:0 0 auto; gap:8px; }
+.google-review-carousel__controls button { display:grid; width:40px; height:40px; padding:0; place-items:center; border:1px solid var(--line); background:transparent; font:inherit; font-size:24px; line-height:1; cursor:pointer; }
+.google-review-carousel__viewport { min-width:0; overflow-x:auto; overflow-y:hidden; overscroll-behavior-inline:contain; scroll-behavior:smooth; scroll-snap-type:x mandatory; scrollbar-width:thin; }
+.google-review-carousel__track { display:flex; gap:20px; align-items:stretch; min-width:100%; }
+.google-review-card { display:flex; flex:0 0 calc((100% - 40px)/3); min-width:0; flex-direction:column; gap:18px; padding:22px; scroll-snap-align:start; background:#fff; }
+.google-review-carousel--compact .google-review-card { flex-basis:calc((100% - 20px)/2); }
+.google-review-card__header { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:12px; align-items:center; min-width:0; }
+.google-review-card__avatar { display:block; width:48px; min-width:48px; height:48px; border-radius:50%; object-fit:cover; background:#e8ece8; }
+.google-review-card__identity { min-width:0; }
+.google-review-card__identity strong { display:block; overflow:hidden; font-size:14px; line-height:1.25; text-overflow:ellipsis; white-space:nowrap; }
+.google-review-card__identity span { display:block; margin-top:3px; font-size:11px; line-height:1.3; }
+.google-review-card__platform { display:inline-flex; min-width:0; align-items:center; justify-content:center; padding:5px 7px; border:1px solid var(--line); color:var(--green-deep); font-size:10px; font-weight:900; line-height:1; letter-spacing:.04em; text-transform:uppercase; }
+.google-review-card > p { margin:0; color:var(--ink); font-size:14px; line-height:1.65; }
+.google-review-carousel__link { display:inline-block; }
+
+@media (max-width:900px) {
+  .google-review-card,
+  .google-review-carousel--compact .google-review-card { flex-basis:calc((100% - 20px)/2); }
+}
+@media (max-width:650px) {
+  .google-review-carousel__bar { align-items:flex-end; }
+  .google-review-carousel__summary { gap:10px; }
+  .google-review-carousel__summary img { width:104px; max-width:104px; height:32px; }
+  .google-review-carousel__controls button { width:38px; height:38px; }
+  .google-review-card,
+  .google-review-carousel--compact .google-review-card { flex-basis:88%; padding:19px; }
+  .google-review-card__avatar { width:44px; min-width:44px; height:44px; }
+}

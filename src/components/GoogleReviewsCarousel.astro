@@ -29,7 +29,7 @@ const reviews = limit ? futureReviews.slice(0, limit) : futureReviews;
           <div class="google-review-card__header">
             <img class="google-review-card__avatar" src={review.avatar} alt={`${review.name} profile picture`} loading="lazy" referrerpolicy="no-referrer" />
             <div class="google-review-card__identity"><strong>{review.name}</strong><span>{review.date}</span></div>
-            <img class="google-review-card__platform" src={assets.reviewPlatformIcon} alt="Google" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="google-review-card__platform" aria-label="Google review">Google</span>
           </div>
           <p>{review.quote}</p>
         </article>
