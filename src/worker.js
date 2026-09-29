@@ -137,7 +137,7 @@ export default {
       const result = await env.ECF_INBOX.send({
         to: 'ecfoam@outlook.com',
         from: {
-          email: 'website@eastcoastfoamllc.com',
+          email: 'website@notify.eastcoastfoamllc.com',
           name: 'East Coast Foam Website'
         },
         subject: 'Website estimate request — ' + subjectName + ' — ' + subjectCity,
