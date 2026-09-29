@@ -60,7 +60,17 @@ export default {
     }
 
     if (url.pathname !== '/api/estimate') {
-      return env.ASSETS.fetch(request);
+      const preview = url.hostname.endsWith('.workers.dev');
+      if (preview && url.pathname === '/robots.txt') {
+        return new Response('User-agent: *\nDisallow: /\n', { headers: { 'content-type': 'text/plain; charset=utf-8' } });
+      }
+      const response = await env.ASSETS.fetch(request);
+      if (preview || response.status === 404) {
+        const protectedResponse = new Response(response.body, response);
+        protectedResponse.headers.set('X-Robots-Tag', 'noindex, nofollow');
+        return protectedResponse;
+      }
+      return response;
     }
 
     if (request.method !== 'POST') {

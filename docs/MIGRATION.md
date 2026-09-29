@@ -2,12 +2,11 @@
 
 This repository is the customer-owned production candidate for East Coast Foam LLC.
 
-## Staging safeguards
+## Production indexing and preview safeguards
 
-The initial seed intentionally remains **noindex/nofollow** and blocks crawling in `robots.txt`.
-Those controls are removed only in the final release PR immediately before the approved domain cutover.
+The production custom domains allow indexing following successful live smoke QA. `robots.txt` advertises `/sitemap.xml`, containing the 17 canonical content URLs. Error pages remain noindexed. The Worker blocks workers.dev previews with `X-Robots-Tag: noindex, nofollow` and a preview-specific `robots.txt`.
 
-The Guided Estimate posts to the same Cloudflare Worker at /api/estimate. The Worker sends the request to the fixed verified destination ecfoam@outlook.com through a destination-restricted Cloudflare Email Service binding.
+The estimate page currently offers direct phone/email contact. The interactive form and ECF_INBOX deployment binding are disabled until real email delivery is proven. The retained backend architecture posts to `/api/estimate` and targets `ecfoam@outlook.com`; with no binding, it returns 503 and direct contact instructions.
 
 The contact email remains `ecfoam@outlook.com`.
 
@@ -19,7 +18,7 @@ The contact email remains `ecfoam@outlook.com`.
 - Cloudflare documents free Worker sends to a verified destination address, but the sender must belong to an Email Service onboarded domain. `ecfoam@outlook.com` is verified; the sender domain `notify.eastcoastfoamllc.com` is not onboarded or proven yet.
 - Do **not** onboard the apex `eastcoastfoamllc.com` domain to Email Routing or replace its current MX/SPF/DMARC records. Cloudflare's apex routing setup proposes different MX and SPF records. Investigate whether the `notify` subdomain can be onboarded without touching apex mail; if it cannot, choose a separate approved transport or a temporary contact path before cutover. Do not buy Workers Paid automatically.
 - Email attachments are limited to 4 MB total.
-- Production release remains blocked until a real preview submission is received successfully.
+- Interactive form release remains blocked until a real submission is received successfully, including visitor details, Reply-To and an attachment. Website production can use the approved temporary contact alternative.
 
 ## Legacy media dependency
 
@@ -98,3 +97,13 @@ Authoritative new-name-server responses preserve mail A 205.209.100.70, apex MX 
 The earlier pending-zone instructions above are historical checkpoints. Production recovery now takes priority; indexing will be released only after the current production deployment passes route/media/TLS smoke checks.
 
 Rollback: use customer-owned Worker versions and GitHub revert/redeployment with these custom domains. Version 4babcdeb-d13d-4ddb-a04e-ab3fbdaae38f is the first working customer-owned asset deployment, but its form delivery is unproven. The former jack/meg nameservers are historical emergency evidence only, not a routine rollback plan after the owner cutover. Keep WordPress available during stabilization.
+
+### Production smoke and indexing release
+
+Recovery PR #3 passed CI run 36642726392 and merged as 6e2a4f1b28f9237a7dd2e51592d9cfacb6e1c14f. Cloudflare deployed recovery version da74b15c-0d5e-44ba-8df1-010627bbe244, a known working rollback version with direct contact and staging indexing protection.
+
+Live smoke at 2026-09-29T23:02:35Z passed 17 content routes, 38 images (content type and byte lengths), 18 legacy 301 redirects, www/HTTP-to-HTTPS-apex redirects preserving path/query, five missing/excluded routes returning 404, and disabled form API returning 503. Live desktop/mobile browser QA passed all 28 checks. Both domains passed normal HTTPS certificate validation. Javon authoritative DNS preserves mail A/MX/SPF; 1.1.1.1 confirms christina/javon NS; .com parent query returns no DS.
+
+The indexing release allows production crawling, adds a 17-URL sitemap, preserves production canonicals, and blocks workers.dev preview indexing at the Worker. Search Console submission/ownership verification remains a separate owner account action; the public sitemap is ready for discovery.
+
+Preview Builds re-enabled after recovery CI/live QA: npm run build, npx wrangler preview, root /, existing eastcoastfoamllc-workers-builds token, no build variables. Production continues to deploy main via npx wrangler deploy. Wrangler ^4.144.0 and lockfile are in main.

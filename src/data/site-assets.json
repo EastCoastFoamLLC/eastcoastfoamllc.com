@@ -1,6 +1,6 @@
 {
   "sourceSite": "https://eastcoastfoamllc.com",
-  "note": "East Coast Foam owner-authorized media currently served from the legacy WordPress host. This dependency must be migrated to customer-owned storage before WordPress retirement.",
+  "note": "East Coast Foam owner-authorized media copied from legacy WordPress into customer-owned repository assets. All 38 migrated images passed live production checks.",
   "logo": "/media/legacy/2024/04/Logo-East-Coast-Foam-LLC.png",
   "googleReviewsBadge": "/media/legacy/2024/04/Google-Reviews.webp",
   "hero": "/media/legacy/2024/05/spray-foam-insulation.webp",
