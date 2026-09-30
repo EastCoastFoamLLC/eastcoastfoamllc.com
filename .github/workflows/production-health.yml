@@ -33,6 +33,7 @@ jobs:
           set -euo pipefail
           base="https://eastcoastfoamllc.com"
           tmp="$RUNNER_TEMP/ecf-health"
+          user_agent="LDW-Production-Health/1.0"
           mkdir -p "$tmp"
 
           check_200() {
@@ -55,12 +56,25 @@ jobs:
           check_200 "/sitemap.xml" "sitemap.xml"
           check_200 "/robots.txt" "robots.txt"
 
-          grep -q "East Coast Foam" "$tmp/home.html"
-          grep -q "google-review-card" "$tmp/reviews.html"
-          grep -q "data-estimate-form" "$tmp/quote.html"
-          grep -q "ecfoam@outlook.com" "$tmp/quote.html"
-          grep -q "https://eastcoastfoamllc.com/" "$tmp/sitemap.xml"
-          grep -q "Allow: /" "$tmp/robots.txt"
+          check_marker() {
+            local needle="$1"
+            local file="$2"
+            local label="$3"
+            if ! grep -Fq "$needle" "$file"; then
+              echo "::error title=Production marker failure::$label marker was not found"
+              echo "Response prefix:"
+              head -c 240 "$file" | tr '\n' ' '
+              echo
+              exit 1
+            fi
+          }
+
+          check_marker "East Coast Foam" "$tmp/home.html" "homepage identity"
+          check_marker "google-review-card" "$tmp/reviews.html" "review cards"
+          check_marker "data-estimate-form" "$tmp/quote.html" "guided estimate"
+          check_marker "ecfoam@outlook.com" "$tmp/quote.html" "estimate destination"
+          check_marker "https://eastcoastfoamllc.com/" "$tmp/sitemap.xml" "sitemap canonical"
+          check_marker "Allow: /" "$tmp/robots.txt" "robots allow"
           if grep -q "Disallow: /" "$tmp/robots.txt"; then
             echo "::error title=Indexing regression::robots.txt blocks the production site"
             exit 1
