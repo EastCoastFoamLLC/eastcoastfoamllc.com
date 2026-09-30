@@ -1,0 +1,56 @@
+name: ECF security baseline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '43 11 * * *'
+    - cron: '31 12 * * 3'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  npm-audit:
+    name: npm audit (high+)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install exact locked dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Audit dependencies at high severity or greater
+        run: npm audit --audit-level=high
+
+  dependency-scan:
+    uses: LowcountryDigitalWorks/.github/.github/workflows/security-dependencies-npm.yml@a377e52ba698e93d012aa553e4de4af39ba75799
+    with:
+      online_queries: false
+      verify_canary: false
+
+  secret-scan:
+    if: ${{ github.event_name != 'schedule' }}
+    uses: LowcountryDigitalWorks/.github/.github/workflows/security-secrets.yml@a377e52ba698e93d012aa553e4de4af39ba75799
+    with:
+      verify_canary: false
+
+  codeql:
+    if: ${{ github.event_name != 'schedule' || github.event.schedule == '31 12 * * 3' }}
+    permissions:
+      contents: read
+      security-events: write
+    uses: LowcountryDigitalWorks/.github/.github/workflows/security-codeql-js.yml@a377e52ba698e93d012aa553e4de4af39ba75799
