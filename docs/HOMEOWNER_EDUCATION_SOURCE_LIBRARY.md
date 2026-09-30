@@ -592,9 +592,27 @@ https://koalainsulation.com/eastern-carolina/blog/how-insulation-helps-prevent-m
 
 # 10. Casey review questions before public implementation
 
+## Confirmed business capability
+
+Owner-confirmed on 2026-09-29:
+
+**East Coast Foam does audit / inspect other contractors' spray-foam installations.**
+
+Treat this as a real ECF capability for roadmap/content planning.
+
+Do **not** publish the final public service name, scope, deliverables, pricing, warranty language, or implied forensic/engineering authority until Casey reviews the proposed positioning.
+
+Preferred working service labels to test with Casey:
+- Spray Foam Inspection & Second Opinion
+- Existing Spray Foam Quality Audit
+- Spray Foam Installation Review
+- Spray Foam Troubleshooting / Second Opinion
+
+The service should be positioned as an independent practical installation/building-envelope review, not as mold testing, structural engineering, code inspection, legal expert testimony, or a guarantee that every observed symptom is caused by the foam.
+
 Ask Casey:
 
-1. Does ECF currently offer inspection / second-opinion work on another contractor's spray foam?
+1. **CONFIRMED:** ECF audits/inspects spray-foam work installed by other contractors. Confirm preferred public name and exact written scope/deliverables.
 2. Will ECF repair isolated bad foam installations?
 3. Will ECF remove defective spray foam, or only diagnose/refer?
 4. Does ECF measure wood moisture before spraying?
@@ -607,7 +625,7 @@ Ask Casey:
 11. Does ECF use a hygrometer, moisture meter, or thermal camera?
 12. Does ECF perform or coordinate blower-door testing?
 13. Does ECF perform crawl-space encapsulation / drainage work, or only insulation?
-14. Does ECF want to market "spray foam inspection / second opinion" as a service?
+14. Confirm how prominently ECF wants to market the already-performed spray-foam inspection / second-opinion service.
 15. Can we publish real repair/correction project photos from future jobs?
 16. Is there a preferred response time we may safely publish for website leads?
 
@@ -626,3 +644,126 @@ Preferred order:
 5. competitor content only as UX/topic inspiration
 
 Every safety/moisture/code-sensitive public page should retain a source-note trail in this repository even if public-facing citations are presented more simply.
+
+
+---
+
+# 12. Spray Foam Inspection / Second Opinion — candidate service framework
+
+Status: **real capability confirmed; public packaging pending Casey review**
+
+## Why this service matters
+
+Many homeowners already have spray foam and are not shopping for a brand-new installation. Their real question is:
+
+> "Is the foam I already paid for actually doing what it is supposed to do?"
+
+That is a distinct customer problem and should become a first-class service path if Casey approves the public packaging.
+
+## Candidate customer triggers
+
+- buying a home that already has spray foam;
+- recent foam installation but comfort/humidity problems remain;
+- visible pull-away / shrinkage;
+- obvious gaps / voids / missed transitions;
+- questionable or inconsistent coverage;
+- persistent unusual odor;
+- sticky/friable/discolored foam;
+- water stains / moisture around a foamed assembly;
+- attic still humid after roofline foam;
+- crawl space still damp/musty;
+- dispute or uncertainty about another contractor's workmanship;
+- customer wants an independent practical second opinion before paying for more work.
+
+## Candidate audit outputs — confirm with Casey
+
+Possible customer-facing deliverables to discuss:
+
+- visual inspection of accessible foam;
+- photo documentation;
+- observed gaps / voids / pull-away / adhesion concerns;
+- accessible thickness checks where practical;
+- moisture / RH context if ECF actually measures it;
+- notes on attic/crawl-space assembly and moisture-control strategy;
+- review of product/installer documentation the customer can provide;
+- plain-English explanation of likely next steps;
+- repair / add-to / remove / monitor / refer recommendation categories;
+- written scope for corrective work if ECF is the appropriate contractor.
+
+Do not publish this list as promised deliverables until Casey confirms the actual process.
+
+## Important boundary
+
+The value proposition is:
+
+**independent practical review + clear next-step guidance**
+
+not:
+
+- forensic engineering;
+- licensed mold assessment unless separately qualified;
+- roofing/plumbing/HVAC diagnosis beyond ECF's actual competence;
+- guaranteed code compliance determination;
+- legal expert opinion.
+
+## Conversion path
+
+Potential future navigation:
+
+Services
+→ Spray Foam Inspection / Second Opinion
+
+Education
+→ "7 signs your existing spray foam should be inspected"
+
+Guided Estimate
+→ "I already have spray foam and want it checked"
+
+This creates a natural path for homeowners who otherwise would not identify themselves as a "new insulation" lead.
+
+---
+
+# 13. Demo-space content accumulation rule
+
+Do not push every research idea directly into production.
+
+Build enough material first, then create a **visual branch-preview demo** for Casey.
+
+The demo should combine:
+
+- homeowner symptom navigator;
+- spray-foam inspection / second-opinion service card;
+- existing-foam warning-sign page;
+- mold/moisture education page;
+- conditioned-attic education;
+- open-vs-closed comparison;
+- cost-factor education;
+- contractor-question checklist;
+- sample project/case-study layout;
+- custom educational diagrams;
+- real ECF photography where available.
+
+Preferred demo mechanism:
+
+- normal GitHub feature branch;
+- Cloudflare branch Preview URL;
+- no production navigation/indexing;
+- no permanent public `/future` namespace;
+- clearly marked concept/demo content where Casey confirmation is still pending.
+
+Casey should be able to review the education system **as a coherent customer journey**, not as disconnected Markdown drafts.
+
+Demo review questions:
+
+1. Does this sound like how Casey actually explains the work?
+2. Which services/capabilities are accurately represented?
+3. What would he never say/promote?
+4. Which questions does he repeatedly get from customers?
+5. Which bad-installation problems does he see most often?
+6. Which photos/jobs can we use?
+7. Which inspection deliverables does he actually provide?
+8. Which educational pages should be public first?
+9. Does the Guided Estimate need a dedicated "existing foam / second opinion" path?
+10. Are there service areas / job types he wants emphasized or de-emphasized?
+
+The first visual demo should not ship to production until Casey reviews the business/capability assumptions.
