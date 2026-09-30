@@ -41,7 +41,9 @@ jobs:
             local name="$2"
             local out="$tmp/$name"
             local code
-            code="$(curl --proto '=https' --tlsv1.2 --silent --show-error --location               --max-time 20 --output "$out" --write-out '%{http_code}' "$base$path")"
+            code="$(curl --proto '=https' --tlsv1.2 --silent --show-error --location \
+              --user-agent "$user_agent" --max-time 20 --output "$out" \
+              --write-out '%{http_code}' "$base$path")"
             if [[ "$code" != "200" ]]; then
               echo "::error title=Route health failure::$path returned HTTP $code"
               exit 1
@@ -81,7 +83,10 @@ jobs:
           fi
 
           read -r www_code www_target < <(
-            curl --proto '=https' --tlsv1.2 --silent --show-error --max-time 20               --output /dev/null --write-out '%{http_code} %{redirect_url}'               "https://www.eastcoastfoamllc.com/"
+            curl --proto '=https' --tlsv1.2 --silent --show-error --max-time 20 \
+              --user-agent "$user_agent" --output /dev/null \
+              --write-out '%{http_code} %{redirect_url}\n' \
+              "https://www.eastcoastfoamllc.com/"
           )
           case "$www_code" in
             301|302|307|308) ;;
@@ -95,7 +100,9 @@ jobs:
             exit 1
           fi
 
-          api_code="$(curl --proto '=https' --tlsv1.2 --silent --show-error --max-time 20             --output "$tmp/api.json" --write-out '%{http_code}' "$base/api/estimate")"
+          api_code="$(curl --proto '=https' --tlsv1.2 --silent --show-error --max-time 20 \
+            --user-agent "$user_agent" --output "$tmp/api.json" \
+            --write-out '%{http_code}' "$base/api/estimate")"
           if [[ "$api_code" != "405" ]]; then
             echo "::error title=Estimate API contract failure::GET /api/estimate returned HTTP $api_code instead of 405"
             exit 1
@@ -129,7 +136,9 @@ jobs:
         run: |
           set -euo pipefail
           headers="$RUNNER_TEMP/ecf-headers.txt"
-          curl --proto '=https' --tlsv1.2 --silent --show-error --head --max-time 20             https://eastcoastfoamllc.com/ > "$headers"
+          curl --proto '=https' --tlsv1.2 --silent --show-error --head --max-time 20 \
+            --user-agent "LDW-Production-Health/1.0" \
+            https://eastcoastfoamllc.com/ > "$headers"
 
           for header in strict-transport-security x-content-type-options content-security-policy referrer-policy; do
             if ! grep -qi "^$header:" "$headers"; then
