@@ -1,6 +1,7 @@
 name: ECF production health
 
 on:
+  pull_request:
   schedule:
     - cron: '17 */6 * * *'
   workflow_dispatch:
