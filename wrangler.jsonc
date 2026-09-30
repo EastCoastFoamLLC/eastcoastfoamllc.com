@@ -11,9 +11,34 @@
     "html_handling": "drop-trailing-slash"
   },
   "workers_dev": true,
-  "previews": {},
+  "previews": {
+    "send_email": [
+      {
+        "name": "ECF_INBOX",
+        "destination_address": "ecfoam@outlook.com",
+        "allowed_sender_addresses": [
+          "website@notify.eastcoastfoamllc.com"
+        ]
+      }
+    ]
+  },
   "routes": [
-    { "pattern": "eastcoastfoamllc.com", "custom_domain": true },
-    { "pattern": "www.eastcoastfoamllc.com", "custom_domain": true }
+    {
+      "pattern": "eastcoastfoamllc.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.eastcoastfoamllc.com",
+      "custom_domain": true
+    }
+  ],
+  "send_email": [
+    {
+      "name": "ECF_INBOX",
+      "destination_address": "ecfoam@outlook.com",
+      "allowed_sender_addresses": [
+        "website@notify.eastcoastfoamllc.com"
+      ]
+    }
   ]
 }
