@@ -34,10 +34,14 @@ test('VISUAL-003 concept remains noindex and all accepted visuals render respons
         naturalWidth: el.naturalWidth,
         naturalHeight: el.naturalHeight,
         renderedWidth: el.getBoundingClientRect().width,
+        renderedHeight: el.getBoundingClientRect().height,
       }));
       expect(metrics.naturalWidth, viewport.name + ' image natural width').toBeGreaterThan(0);
       expect(metrics.naturalHeight, viewport.name + ' image natural height').toBeGreaterThan(0);
       expect(metrics.renderedWidth, viewport.name + ' image rendered width').toBeLessThanOrEqual(viewport.width);
+      const naturalRatio = metrics.naturalWidth / metrics.naturalHeight;
+      const renderedRatio = metrics.renderedWidth / metrics.renderedHeight;
+      expect(Math.abs(naturalRatio - renderedRatio), viewport.name + ' image aspect-ratio drift').toBeLessThan(0.02);
     }
   }
 });
