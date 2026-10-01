@@ -1,8 +1,0 @@
----
-import BrandMark from './BrandMark.astro';
-import { futureContact } from '../data/future-content';
----
-<footer class="future-v1__footer">
-  <div class="future-v1__footer-main"><div class="future-v1__footer-brand"><BrandMark href="/" /><p>Spray foam, insulation, roofing, and coating services for property conversations across the coast.</p><a class="future-v1__footer-estimate" href="/get-a-quote">Request an Estimate <span aria-hidden="true">→</span></a></div><div><h2>Explore</h2><a href="/services">Services</a><a href="/projects">Projects</a><a href="/about-us">About</a><a href="/reviews">Reviews</a><a href="/service-area">Service Area</a><a href="/resources">Guides</a></div><div><h2>Contact</h2><a href={`tel:${futureContact.phoneHref}`}>Call {futureContact.phoneDisplay}</a><a href={`mailto:${futureContact.publicEmail}`}>Email East Coast Foam</a><a class="future-v1__footer-facebook" href={futureContact.facebook} target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.2 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.6 1.7-1.6H17V3.5c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 4v2.3H8.3V13h2.6v8h3.3Z" /></svg>Facebook</a><a href="/contact.vcf" download>Save Contact</a></div></div>
-  <div class="future-v1__footer-bottom"><span>© {new Date().getFullYear()} East Coast Foam LLC</span><a href={futureContact.mapsUrl} target="_blank" rel="noopener noreferrer">{futureContact.address}</a><span>{futureContact.hours}</span></div>
-</footer>
