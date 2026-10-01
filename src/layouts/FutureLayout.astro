@@ -8,11 +8,12 @@ interface Props {
   title: string;
   description: string;
   estimatePage?: boolean;
+  noindex?: boolean;
 }
 
-const { title, description, estimatePage = false } = Astro.props;
+const { title, description, estimatePage = false, noindex = false } = Astro.props;
 ---
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} noindex={noindex}>
   <div id="top" class="future-v1">
     <FutureHeader />
     <main><slot /></main>

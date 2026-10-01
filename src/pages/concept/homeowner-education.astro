@@ -1,0 +1,313 @@
+---
+import FutureLayout from '../../layouts/FutureLayout.astro';
+import assets from '../../data/site-assets.json';
+
+const educationVisuals = {
+  a1: '/media/education/visual-003/ecf-a1-v1-lowcountry-house-symptom-cutaway.webp',
+  a2: '/media/education/visual-003/ecf-a2-v2-good-foam-vs-needs-inspection.webp',
+  a3: '/media/education/visual-003/ecf-a3-v1-four-moisture-paths.webp',
+  a4: '/media/education/visual-003/ecf-a4-v2-conditioned-attic-whole-system.webp',
+  b1: '/media/education/visual-003/ecf-b1-v2-existing-foam-inspection-process.webp',
+  b2: '/media/education/visual-003/ecf-b2-v4-repair-add-remove-leave-alone.webp',
+  openClosed: '/media/education/visual-003/ecf-open-cell-vs-closed-cell-v1.webp',
+  cost: '/media/education/visual-003/ecf-spray-foam-cost-factors-v1.webp',
+  process: '/media/education/visual-003/ecf-before-during-after-installation-v4.webp',
+  homebuyer: '/media/education/visual-003/ecf-homebuyer-existing-foam-checklist-v1.webp',
+} as const;
+
+const problems = [
+  { label: 'Hot upstairs or uneven rooms', detail: 'Attic insulation, air leakage, ducts, HVAC balance and windows can all contribute.', href: '#start-here' },
+  { label: 'Musty attic or crawl space', detail: 'Start with the moisture source before deciding what insulation work makes sense.', href: '#moisture' },
+  { label: 'Condensation or dampness', detail: 'Humidity, cold surfaces, air leakage and active water can create similar symptoms.', href: '#moisture' },
+  { label: 'Existing foam looks questionable', detail: 'Gaps, pull-away, inconsistent coverage or unusual material condition are worth inspecting.', href: '#existing-foam' },
+  { label: 'Already have foam but comfort is poor', detail: 'The answer may be repair, another building system, or no additional foam at all.', href: '#second-opinion' },
+  { label: 'Buying a home with spray foam', detail: 'Review the installation, documentation, water history and how the attic/crawl space is managed.', href: '#homebuyer' },
+];
+
+const signs = [
+  ['01','Pull-away','Foam visibly separating from framing or sheathing.'],
+  ['02','Gaps or voids','Visible substrate, missed corners or incomplete transitions.'],
+  ['03','Inconsistent coverage','Areas that look substantially different from the intended continuous layer.'],
+  ['04','Poor adhesion','Foam that appears detached or delaminated from the surface.'],
+  ['05','Unusual material condition','Sticky, friable/crumbly or unusually discolored foam deserves a closer look.'],
+  ['06','Persistent unusual odor','A continuing concern after installation should be investigated rather than dismissed.'],
+  ['07','Humidity or moisture remains','A sealed-looking attic or crawl space can still have a moisture-management problem.'],
+];
+
+const moisturePaths = [
+  ['Bulk water','Roof, flashing, plumbing or flooding.','Fix active water first.'],
+  ['Ground / crawl moisture','Wet soil, standing water, drainage or vapor movement.','Insulation is only one part of the solution.'],
+  ['Humid-air leakage','Moist air moving through gaps and penetrations.','Air sealing can matter as much as insulation.'],
+  ['Condensation','Moist air meeting a cold surface.','Find the humidity and surface-temperature cause.'],
+];
+
+const reviewQuestions = [
+  'Does this sound like how you explain the problem to customers?',
+  'What do you actually check during another contractor’s spray-foam audit?',
+  'Do you give customers photos, measurements, a written summary, or a verbal explanation?',
+  'Which tools do you regularly use: moisture meter, RH meter, thermal camera, thickness checks?',
+  'When will you repair another contractor’s foam, and when will you recommend removal or another trade?',
+  'Do you want “Spray Foam Inspection / Second Opinion” marketed as its own service?',
+];
+---
+<FutureLayout
+  title="Homeowner Education Concept | East Coast Foam"
+  description="Internal East Coast Foam concept preview for homeowner education and spray-foam second-opinion content."
+  noindex
+>
+  <div class="concept-banner">
+    <strong>Concept preview</strong>
+    <span>Not public navigation · not final Casey-approved service language</span>
+  </div>
+
+  <section class="concept-hero" data-mobile-actions-anchor>
+    <div class="concept-hero__copy">
+      <p class="future-v1__kicker">Homeowner education concept</p>
+      <h1>Start with what you're <em>noticing.</em></h1>
+      <p class="concept-lede">You should not need to know the right insulation product before asking for help. Start with the symptom, understand the likely building-envelope questions, then decide what—if anything—needs to change.</p>
+      <div class="concept-actions">
+        <a class="future-v1__estimate-button" href="#start-here">What are you noticing? <span aria-hidden="true">↓</span></a>
+        <a class="concept-text-link" href="#second-opinion">I already have spray foam →</a>
+      </div>
+      <div class="concept-trustline">
+        <span>Problem first</span>
+        <span>Plain English</span>
+        <span>Inspect before assuming</span>
+      </div>
+    </div>
+    <div class="concept-hero__media">
+      <img src={assets.hero} alt="East Coast Foam spray foam installation work" />
+      <div class="concept-hero__card">
+        <span>Working idea</span>
+        <strong>“Describe the problem. We can start there.”</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="concept-section concept-section--paper" id="start-here">
+    <div class="concept-heading">
+      <div>
+        <p class="future-v1__kicker">Start here</p>
+        <h2>What are you noticing?</h2>
+      </div>
+      <p>Different problems can look alike. These paths help a homeowner ask a useful question without pretending to diagnose the building from a website.</p>
+    </div>
+    <figure class="education-visual education-visual--feature">
+      <img src={educationVisuals.a1} width="1672" height="941" loading="lazy" decoding="async" alt="Educational cutaway of a Lowcountry-style house showing attic heat, ductwork, possible water entry, wall condensation, crawl-space moisture, cold floors, and humid outdoor air as possible symptom paths." />
+      <figcaption><strong>Educational illustration.</strong> A symptom is not a diagnosis. Hot rooms, dampness, odors, condensation, or comfort problems can involve more than insulation, so the useful first step is understanding where to look.</figcaption>
+    </figure>
+    <div class="problem-grid">
+      {problems.map((problem) => (
+        <a href={problem.href} class="problem-card">
+          <span>{problem.label}</span>
+          <p>{problem.detail}</p>
+          <b aria-hidden="true">→</b>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="concept-section concept-section--dark" id="second-opinion">
+    <div class="second-opinion">
+      <div class="second-opinion__copy">
+        <p class="future-v1__kicker">Confirmed ECF capability</p>
+        <h2>Already have spray foam? Get a second opinion before assuming it all needs to come out.</h2>
+        <p>East Coast Foam already audits and inspects spray-foam work installed by other contractors. The public service name, exact deliverables, and pricing still need Casey's approval—but the customer problem is real.</p>
+        <blockquote>“An inspection should not start with the assumption that you need more foam.”</blockquote>
+        <div class="second-opinion__outcomes">
+          <span>Localized repair</span>
+          <span>Complete a missed area</span>
+          <span>Fix moisture first</span>
+          <span>Call another trade</span>
+          <span>Monitor / leave it alone</span>
+          <span>Consider larger corrective work</span>
+        </div>
+      </div>
+      <figure class="second-opinion__media">
+        <img src={educationVisuals.b1} width="1672" height="941" loading="lazy" decoding="async" alt="Educational illustration of a spray-foam second-opinion process moving from homeowner concern through accessible visual inspection, documentation, explanation, and an appropriate next-step recommendation." />
+        <figcaption><strong>Educational illustration.</strong> Example inspection flow; exact ECF tools and deliverables remain Casey-review items.</figcaption>
+        <div>
+          <small>Casey review needed</small>
+          <strong>What does an ECF audit actually include?</strong>
+          <p>Visual review, photos, thickness, moisture/RH, thermal imaging, written findings, repair scope—only the items Casey confirms should appear publicly.</p>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="concept-section" id="existing-foam">
+    <div class="concept-heading">
+      <div>
+        <p class="future-v1__kicker">Existing spray foam</p>
+        <h2>Seven signs the installation deserves a closer look.</h2>
+      </div>
+      <p>These are inspection triggers, not automatic removal triggers.</p>
+    </div>
+    <figure class="education-visual">
+      <img src={educationVisuals.a2} width="1672" height="941" loading="lazy" decoding="async" alt="Educational comparison showing continuous bonded-looking spray foam alongside pull-away, a missed framing transition, and a neutral irregular surface condition that may be worth inspecting." />
+      <figcaption><strong>Educational illustration.</strong> These are examples of conditions worth inspecting, not proof that an installation has failed or must be removed.</figcaption>
+    </figure>
+    <div class="sign-grid">
+      {signs.map(([num,title,detail]) => (
+        <article class="sign-card">
+          <span>{num}</span>
+          <h3>{title}</h3>
+          <p>{detail}</p>
+        </article>
+      ))}
+    </div>
+    <div class="concept-note">
+      <strong>Education guardrail</strong>
+      <p>Visible foam alone cannot prove installed R-value, code compliance, or the root cause of a moisture/comfort problem. The page should teach homeowners what is worth checking—not turn them into remote inspectors.</p>
+    </div>
+  </section>
+
+  <section class="concept-section concept-section--moisture" id="moisture">
+    <div class="concept-heading">
+      <div>
+        <p class="future-v1__kicker">Mold, moisture &amp; insulation</p>
+        <h2>Four moisture paths. One simple rule: fix active water first.</h2>
+      </div>
+      <p>Mold and musty conditions are reasons to find the moisture source. Spray foam is not a mold treatment and is not a substitute for repairing a leak.</p>
+    </div>
+    <div class="moisture-grid">
+      {moisturePaths.map(([title,detail,rule], index) => (
+        <article>
+          <span>0{index + 1}</span>
+          <h3>{title}</h3>
+          <p>{detail}</p>
+          <strong>{rule}</strong>
+        </article>
+      ))}
+    </div>
+    <figure class="education-visual education-visual--feature">
+      <img src={educationVisuals.a3} width="1672" height="941" loading="lazy" decoding="async" alt="Educational house diagram showing four moisture paths: bulk water, ground or crawl-space moisture, humid-air leakage, and condensation." />
+      <figcaption><strong>Educational illustration.</strong> Moisture can arrive through different paths. Finding the source matters before deciding whether insulation work belongs in the solution.</figcaption>
+    </figure>
+  </section>
+
+  <section class="concept-section concept-section--paper">
+    <div class="conditioned-grid">
+      <div>
+        <p class="future-v1__kicker">Conditioned attic education</p>
+        <h2>“Sprayed roof deck” and “well-managed conditioned attic” are related—but not identical.</h2>
+        <p>A sealed attic still needs a moisture strategy. Water leaks, incomplete coverage, air pathways, ducts/HVAC, and how the attic is conditioned can all matter.</p>
+        <ul>
+          <li>Roof must still stay dry.</li>
+          <li>The air/thermal boundary needs continuity.</li>
+          <li>Moisture still needs a way to be controlled.</li>
+          <li>One universal dehumidifier prescription does not fit every house.</li>
+        </ul>
+      </div>
+      <figure class="education-visual conditioned-visual-image">
+        <img src={educationVisuals.a4} width="1920" height="1080" loading="lazy" decoding="async" alt="Educational conditioned-attic cutaway showing roof and drainage, sheathing, spray-foam boundary, attic space with ducts and HVAC, moisture-management context, and living space below." />
+        <figcaption><strong>Educational illustration.</strong> A sprayed roof deck is one part of a whole-system attic strategy; the illustration does not prescribe one universal conditioning or dehumidification design.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="concept-section" id="homebuyer">
+    <figure class="education-visual education-visual--feature education-visual--homebuyer">
+      <img src={educationVisuals.homebuyer} width="1376" height="768" loading="lazy" decoding="async" alt="Educational homebuyer checklist illustration covering where spray foam is installed, visible foam condition, moisture history, HVAC and whole-system context, transitions, and installation documentation or history." />
+      <figcaption><strong>Educational illustration.</strong> A homebuyer review should consider installation location, visible condition, moisture history, whole-system context, transitions, and documentation—not just whether spray foam is present.</figcaption>
+    </figure>
+    <div class="homebuyer-grid">
+      <div class="homebuyer-card">
+        <p class="future-v1__kicker">Buying a home with spray foam?</p>
+        <h2>Ask what was installed—not just whether foam is present.</h2>
+        <ul>
+          <li>Who installed it, and when?</li>
+          <li>Open-cell or closed-cell?</li>
+          <li>Product/manufacturer documentation?</li>
+          <li>Where was it installed and why?</li>
+          <li>Any roof, plumbing, flooding, or moisture history?</li>
+          <li>Any visible gaps, pull-away, staining, or persistent odor?</li>
+          <li>How is an unvented/conditioned attic managed?</li>
+        </ul>
+        <a class="concept-text-link" href="#second-opinion">Second-opinion service concept →</a>
+      </div>
+      <div class="repair-card">
+        <p class="future-v1__kicker">Not every concern means removal</p>
+        <h3>Repair, add to, remove—or leave it alone?</h3>
+        <div class="decision-list">
+          <span><b>Localized issue</b><small>Possible repair</small></span>
+          <span><b>Incomplete coverage</b><small>Inspect / complete</small></span>
+          <span><b>Active water</b><small>Fix source first</small></span>
+          <span><b>Unusual material condition</b><small>Investigate corrective path</small></span>
+          <span><b>Foam looks fine, comfort poor</b><small>Look beyond foam</small></span>
+          <span><b>No actionable defect</b><small>Monitor / leave alone</small></span>
+        </div>
+        <figure class="education-visual education-visual--compact">
+          <img src={educationVisuals.b2} width="1672" height="941" loading="lazy" decoding="async" alt="Educational decision-support illustration showing localized correction, completing missing coverage, fixing active water first, investigating unusual material, looking beyond foam to another system or trade, and monitoring or leaving acceptable conditions alone." />
+          <figcaption><strong>Educational illustration.</strong> The appropriate next step, not the largest job.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="concept-section concept-section--paper" id="education-library">
+    <div class="concept-heading">
+      <div>
+        <p class="future-v1__kicker">Homeowner education library</p>
+        <h2>Useful comparisons without turning the website into a prescription.</h2>
+      </div>
+      <p>These accepted illustrations can help homeowners prepare better questions. Final public copy should stay assembly-specific, avoid universal thickness or re-entry rules, and avoid presenting generic illustrations as actual ECF job evidence.</p>
+    </div>
+    <div class="education-visual-grid">
+      <figure class="education-visual-card">
+        <img src={educationVisuals.openClosed} width="1672" height="941" loading="lazy" decoding="async" alt="Educational comparison of open-cell and closed-cell spray foam as different material options, without prescribing one material for every building assembly." />
+        <figcaption><strong>Open-cell vs. closed-cell.</strong> Compare characteristics and project context rather than choosing solely from a headline R-value.</figcaption>
+      </figure>
+      <figure class="education-visual-card">
+        <img src={educationVisuals.cost} width="1672" height="941" loading="lazy" decoding="async" alt="Educational spray-foam cost-factor illustration showing that project scope, access, assembly, preparation, material choice, and job conditions can affect a quote." />
+        <figcaption><strong>What affects cost.</strong> Explain the factors that shape a quote without publishing a universal price or savings promise.</figcaption>
+      </figure>
+      <figure class="education-visual-card education-visual-card--wide">
+        <img src={educationVisuals.process} width="1376" height="768" loading="lazy" decoding="async" alt="Educational before, during, and after installation illustration showing a general project sequence without prescribing universal re-entry timing or job-specific safety rules." />
+        <figcaption><strong>Before / during / after.</strong> Set expectations about preparation, installation, cleanup, and documentation while keeping project-specific safety and re-entry guidance with the actual job instructions.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="concept-section concept-section--dark">
+    <div class="questions-grid">
+      <div>
+        <p class="future-v1__kicker">Contractor education</p>
+        <h2>A confident contractor can help you compare any quote.</h2>
+        <p>The future education library should include a printable “questions to ask any insulation contractor” guide covering product, foam type, thickness, moisture, prep, quality checks, barriers/coatings, re-entry, documentation, warranty, and exclusions.</p>
+      </div>
+      <div class="question-prompt">
+        <strong>Example homeowner question</strong>
+        <p>“Why are you recommending this material for this assembly—not just because it has a higher R-value?”</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="concept-section concept-review">
+    <div class="concept-heading">
+      <div>
+        <p class="future-v1__kicker">Casey review packet</p>
+        <h2>What we need to learn before this becomes public.</h2>
+      </div>
+      <p>The demo should make uncertain assumptions obvious so Casey can correct them quickly.</p>
+    </div>
+    <ol>
+      {reviewQuestions.map((question) => <li>{question}</li>)}
+    </ol>
+    <div class="concept-review__actions">
+      <a class="future-v1__estimate-button" href="/get-a-quote">See current Guided Estimate <span aria-hidden="true">→</span></a>
+      <span>Future demo idea: add “I already have spray foam and want it checked.”</span>
+    </div>
+  </section>
+
+  <section class="concept-footer-note">
+    <strong>Concept status</strong>
+    <p>This branch-preview page combines current research into one visual customer journey. After Casey review, accepted pieces should ship as smaller production releases—not as one giant content merge.</p>
+  </section>
+</FutureLayout>
+
+<style>
+  .concept-banner{display:flex;justify-content:center;gap:16px;align-items:center;padding:10px 22px;background:#e5b94d;color:#1c211f;font-size:12px;letter-spacing:.02em}.concept-banner strong{text-transform:uppercase;letter-spacing:.11em}.concept-hero{display:grid;grid-template-columns:1.05fr .95fr;min-height:680px;background:#f2f0e9}.concept-hero__copy{display:flex;flex-direction:column;justify-content:center;padding:90px clamp(24px,6vw,105px)}.concept-hero h1{max-width:780px;margin:0;font-size:clamp(54px,7vw,102px);line-height:.9;letter-spacing:-.075em}.concept-hero h1 em{display:block;color:#217332;font-family:Georgia,serif;font-size:.78em;font-weight:400}.concept-lede{max-width:670px;margin:30px 0 0;color:#48534c;font-size:18px;line-height:1.75}.concept-actions{display:flex;align-items:center;gap:24px;margin-top:34px}.concept-text-link{font-size:14px;font-weight:900;border-bottom:1px solid currentColor}.concept-trustline{display:flex;flex-wrap:wrap;gap:8px;margin-top:36px}.concept-trustline span{padding:8px 11px;border:1px solid rgba(16,21,18,.17);font-size:11px;font-weight:800}.concept-hero__media{position:relative;min-height:680px;background:#123f29;overflow:hidden}.concept-hero__media img{width:100%;height:100%;object-fit:cover;filter:saturate(.78) contrast(1.04)}.concept-hero__media:after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,20,13,.7),transparent 55%)}.concept-hero__card{position:absolute;z-index:2;left:32px;right:32px;bottom:32px;padding:22px;border-left:3px solid #9ab87a;background:rgba(16,21,18,.86);color:white}.concept-hero__card span{display:block;color:#b8d29a;font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.concept-hero__card strong{display:block;margin-top:7px;font-size:21px;line-height:1.3}.concept-section{width:min(1370px,100%);margin:auto;padding:clamp(80px,9vw,135px) clamp(24px,6vw,108px)}.concept-section--paper{width:100%;background:#e8e6de}.concept-section--dark{width:100%;max-width:none;background:#102019;color:#fff}.concept-section--dark .future-v1__kicker{color:#b8d29a}.concept-heading{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.42fr);gap:50px;align-items:end}.concept-heading h2,.second-opinion h2,.conditioned-grid h2,.homebuyer-card h2,.questions-grid h2{max-width:840px;margin:0;font-size:clamp(40px,5vw,72px);line-height:.98;letter-spacing:-.06em}.concept-heading>p{margin:0;color:#5e6762;line-height:1.7}.concept-section--dark .concept-heading>p{color:#c8d2cb}.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:46px}.problem-card{position:relative;min-height:210px;padding:26px;border:1px solid rgba(16,21,18,.15);background:#fff;transition:transform .2s ease,background .2s ease}.problem-card:hover{transform:translateY(-3px);background:#f1f5ec}.problem-card span{display:block;max-width:260px;font-size:21px;font-weight:900;line-height:1.12}.problem-card p{margin:20px 0 34px;color:#5c6660;font-size:13px;line-height:1.65}.problem-card b{position:absolute;right:22px;bottom:19px;color:#217332;font-size:22px}.second-opinion{display:grid;grid-template-columns:1.12fr .88fr;gap:70px;align-items:center;max-width:1220px;margin:auto}.second-opinion__copy>p:not(.future-v1__kicker){max-width:720px;color:#cbd5ce;font-size:16px;line-height:1.75}.second-opinion blockquote{margin:30px 0;padding:22px 0 22px 24px;border-left:3px solid #9ab87a;color:#fff;font:600 24px/1.4 Georgia,serif}.second-opinion__outcomes{display:flex;flex-wrap:wrap;gap:8px}.second-opinion__outcomes span{padding:9px 12px;border:1px solid rgba(255,255,255,.2);font-size:11px;font-weight:800}.second-opinion__media{background:#e6e4dc;color:#131916}.second-opinion__media img{display:block;width:100%;height:auto;object-fit:contain}.second-opinion__media>div{padding:24px}.second-opinion__media small{display:block;color:#8a5b15;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.11em}.second-opinion__media strong{display:block;margin:8px 0;font-size:22px}.second-opinion__media p{margin:0;color:#5a625d;line-height:1.6}.sign-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:44px}.sign-card{min-height:230px;padding:24px;border-top:3px solid #217332;background:#fff;box-shadow:0 12px 34px rgba(18,32,23,.06)}.sign-card>span{color:#217332;font-size:11px;font-weight:900;letter-spacing:.12em}.sign-card h3{margin:38px 0 9px;font-size:24px;line-height:1.08}.sign-card p{margin:0;color:#5b655f;font-size:13px;line-height:1.6}.concept-note{margin-top:24px;padding:22px 25px;background:#e9eddf;border-left:4px solid #7ca35b}.concept-note strong{display:block;font-size:14px}.concept-note p{margin:7px 0 0;color:#4f5b53;line-height:1.65}.concept-section--moisture{width:100%;max-width:none;background:#dce7dd}.concept-section--moisture>.concept-heading,.concept-section--moisture>.moisture-grid,.concept-section--moisture>.moisture-system{width:min(1155px,100%);margin-inline:auto}.moisture-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:46px;background:rgba(16,21,18,.16)}.moisture-grid article{min-height:260px;padding:25px;background:#f5f4ef}.moisture-grid article>span{color:#217332;font-size:11px;font-weight:900}.moisture-grid h3{margin:42px 0 10px;font-size:24px}.moisture-grid p{color:#5c665f;font-size:13px;line-height:1.6}.moisture-grid strong{display:block;margin-top:25px;color:#123f29;font-size:12px}.moisture-system{display:grid;grid-template-columns:.9fr 1.1fr;gap:55px;align-items:center;margin-top:65px}.moisture-system__house{position:relative;height:300px}.roof{position:absolute;left:12%;right:12%;top:28px;height:110px;background:#244f38;clip-path:polygon(50% 0,100% 100%,0 100%)}.house-body{position:absolute;left:20%;right:20%;top:128px;bottom:10px;background:#f8f6ed;border:3px solid #244f38}.callout{position:absolute;padding:6px 8px;background:#fff;border:1px solid #8ea08f;font-size:10px;font-weight:900;text-transform:uppercase}.callout--roof{top:-98px;right:-24px}.callout--air{top:20px;left:-62px}.callout--duct{top:40px;right:-54px}.callout--ground{bottom:-18px;left:40px}.moisture-system h3{margin:0;font-size:34px}.moisture-system p:not(.future-v1__kicker){color:#4d5b51;line-height:1.7}.conditioned-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:70px;align-items:center}.conditioned-grid p{color:#505c54;line-height:1.72}.conditioned-grid ul{padding-left:20px;color:#34443a;line-height:1.9}.conditioned-visual{position:relative;min-height:430px;padding:34px;background:#f7f5ef;border:1px solid rgba(16,21,18,.15)}.conditioned-roof{height:85px;background:#293832;clip-path:polygon(50% 0,100% 100%,0 100%);color:#fff}.conditioned-roof span{display:block;padding-top:48px;text-align:center;font-size:11px;font-weight:800}.conditioned-foam{height:44px;margin:-3px 42px 0;background:#9ab87a;display:grid;place-items:center;font-size:11px;font-weight:900}.conditioned-attic{position:relative;height:170px;margin:0 42px;background:#dce7dd;border-inline:2px solid #344b3c}.conditioned-attic .duct,.conditioned-attic .moisture{position:absolute;padding:9px 11px;background:#fff;border:1px solid #8fa194;font-size:10px;font-weight:900}.conditioned-attic .duct{left:22px;top:35px}.conditioned-attic .moisture{right:20px;bottom:35px}.conditioned-living{height:70px;margin:0 42px;background:#e9e4d8;border:2px solid #344b3c;display:grid;place-items:center;font-size:11px;font-weight:900}.homebuyer-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:25px}.homebuyer-card,.repair-card{padding:38px;border:1px solid rgba(16,21,18,.14);background:#fff}.homebuyer-card ul{columns:2;gap:36px;padding-left:20px;color:#4e5c53;line-height:1.7}.repair-card h3{margin:8px 0 30px;font-size:34px;line-height:1.05}.decision-list{display:grid;gap:1px;background:#d9ded9}.decision-list span{display:grid;grid-template-columns:1fr auto;gap:20px;padding:15px;background:#f6f5ef}.decision-list b{font-size:13px}.decision-list small{color:#217332;font-weight:900}.questions-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:60px;align-items:center;max-width:1180px;margin:auto}.questions-grid>div>p:not(.future-v1__kicker){color:#cbd4ce;line-height:1.7}.question-prompt{padding:32px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05)}.question-prompt strong{color:#b3ce92;font-size:11px;text-transform:uppercase;letter-spacing:.11em}.question-prompt p{margin:12px 0 0!important;color:white!important;font:500 24px/1.5 Georgia,serif}.concept-review ol{display:grid;grid-template-columns:1fr 1fr;gap:12px 35px;margin:42px 0 0;padding:0;list-style:none;counter-reset:item}.concept-review li{counter-increment:item;padding:18px 20px;border-left:3px solid #217332;background:#fff;line-height:1.55}.concept-review li:before{content:counter(item,decimal-leading-zero);display:block;margin-bottom:8px;color:#217332;font-size:10px;font-weight:900}.concept-review__actions{display:flex;align-items:center;gap:22px;margin-top:34px}.concept-review__actions>span{max-width:540px;color:#657169;font-size:12px}.concept-footer-note{padding:30px clamp(24px,6vw,108px);background:#e5b94d;color:#20251f}.concept-footer-note strong{font-size:12px;text-transform:uppercase;letter-spacing:.12em}.concept-footer-note p{max-width:900px;margin:7px 0 0;line-height:1.6}.education-visual{margin:34px 0 0;border:1px solid rgba(16,21,18,.14);background:#f7f5ef;overflow:hidden}.education-visual img,.education-visual-card img{display:block;width:100%;height:auto;object-fit:contain;background:#eeeae0}.education-visual figcaption,.education-visual-card figcaption{padding:14px 17px;color:#4f5b53;font-size:12px;line-height:1.55}.education-visual figcaption strong,.education-visual-card figcaption strong{color:#123f29}.education-visual--feature{margin-top:42px}.education-visual--homebuyer{margin:0 0 26px}.education-visual--compact{margin-top:24px}.second-opinion__media figcaption{padding:12px 18px;background:#d8ded5;color:#34443a;font-size:11px;line-height:1.5}.conditioned-visual-image{margin:0}.education-visual-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:44px}.education-visual-card{margin:0;border:1px solid rgba(16,21,18,.14);background:#fff;overflow:hidden}.education-visual-card--wide{grid-column:1/-1;width:min(820px,100%);justify-self:center}
+  @media(max-width:980px){.concept-hero,.second-opinion,.conditioned-grid,.homebuyer-grid,.questions-grid,.moisture-system{grid-template-columns:1fr}.concept-hero__media{min-height:440px}.problem-grid{grid-template-columns:1fr 1fr}.sign-grid{grid-template-columns:1fr 1fr}.moisture-grid{grid-template-columns:1fr 1fr}.concept-heading{grid-template-columns:1fr}.concept-heading>p{max-width:700px}.concept-review ol{grid-template-columns:1fr}.education-visual-grid{grid-template-columns:1fr}.education-visual-card--wide{grid-column:auto;width:100%}}
+  @media(max-width:650px){.concept-banner{align-items:flex-start;flex-direction:column;gap:2px}.concept-hero__copy{padding:70px 22px}.concept-hero h1{font-size:54px}.concept-actions{align-items:flex-start;flex-direction:column}.concept-section{padding-left:22px;padding-right:22px}.problem-grid,.sign-grid,.moisture-grid{grid-template-columns:1fr}.homebuyer-card ul{columns:1}.concept-review__actions{align-items:flex-start;flex-direction:column}.conditioned-visual{min-height:360px;padding:20px}.conditioned-foam,.conditioned-attic,.conditioned-living{margin-inline:16px}}
+</style>
