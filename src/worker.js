@@ -53,7 +53,7 @@ export default {
     const url = new URL(request.url);
       const siteHostname = url.hostname;
       const withSiteHsts = (response) => {
-        if (siteHostname !== 'eastcoastfoamllc.com' && siteHostname !== 'www.eastcoastfoamllc.com') return withSiteHsts(response);
+        if (siteHostname !== 'eastcoastfoamllc.com' && siteHostname !== 'www.eastcoastfoamllc.com') return response;
         const securedResponse = new Response(response.body, response);
         securedResponse.headers.set('Strict-Transport-Security', 'max-age=31536000');
         return securedResponse;
@@ -78,7 +78,7 @@ export default {
         protectedResponse.headers.set('X-Robots-Tag', 'noindex, nofollow');
         return withSiteHsts(protectedResponse);
       }
-      return response;
+      return withSiteHsts(response);
     }
 
     if (request.method !== 'POST') {
