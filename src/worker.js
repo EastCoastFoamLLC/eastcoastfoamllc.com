@@ -51,14 +51,14 @@ function makeBody(form) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-      const siteHostname = url.hostname;
-      const withSiteHsts = (response) => {
-        if (siteHostname !== 'eastcoastfoamllc.com' && siteHostname !== 'www.eastcoastfoamllc.com') return response;
-        const securedResponse = new Response(response.body, response);
-        securedResponse.headers.set('Strict-Transport-Security', 'max-age=31536000');
-        return securedResponse;
-      };
-      const jsonResponse = (body, status) => withSiteHsts(json(body, status));
+    const siteHostname = url.hostname;
+    const withSiteHsts = (response) => {
+      if (siteHostname !== 'eastcoastfoamllc.com' && siteHostname !== 'www.eastcoastfoamllc.com') return response;
+      const securedResponse = new Response(response.body, response);
+      securedResponse.headers.set('Strict-Transport-Security', 'max-age=31536000');
+      return securedResponse;
+    };
+    const jsonResponse = (body, status) => withSiteHsts(json(body, status));
 
     if (url.hostname === 'www.eastcoastfoamllc.com' ||
         (url.hostname === 'eastcoastfoamllc.com' && url.protocol === 'http:')) {
