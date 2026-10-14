@@ -51,12 +51,20 @@ function makeBody(form) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const siteHostname = url.hostname;
+    const withSiteHsts = (response) => {
+      if (siteHostname !== 'eastcoastfoamllc.com' && siteHostname !== 'www.eastcoastfoamllc.com') return response;
+      const securedResponse = new Response(response.body, response);
+      securedResponse.headers.set('Strict-Transport-Security', 'max-age=31536000');
+      return securedResponse;
+    };
+    const jsonResponse = (body, status) => withSiteHsts(json(body, status));
 
     if (url.hostname === 'www.eastcoastfoamllc.com' ||
         (url.hostname === 'eastcoastfoamllc.com' && url.protocol === 'http:')) {
       url.hostname = 'eastcoastfoamllc.com';
       url.protocol = 'https:';
-      return Response.redirect(url.toString(), 301);
+      return withSiteHsts(Response.redirect(url.toString(), 301));
     }
 
     if (url.pathname !== '/api/estimate') {
@@ -68,43 +76,43 @@ export default {
       if (preview || response.status === 404) {
         const protectedResponse = new Response(response.body, response);
         protectedResponse.headers.set('X-Robots-Tag', 'noindex, nofollow');
-        return protectedResponse;
+        return withSiteHsts(protectedResponse);
       }
-      return response;
+      return withSiteHsts(response);
     }
 
     if (request.method !== 'POST') {
-      return json({ ok: false, error: 'Method not allowed.' }, 405);
+      return jsonResponse({ ok: false, error: 'Method not allowed.' }, 405);
     }
 
     if (!env.ECF_INBOX) {
-      return json({ ok: false, error: 'Online requests are temporarily unavailable. Please call (843) 263-4933 or email ecfoam@outlook.com.' }, 503);
+      return jsonResponse({ ok: false, error: 'Online requests are temporarily unavailable. Please call (843) 263-4933 or email ecfoam@outlook.com.' }, 503);
     }
 
     const origin = request.headers.get('Origin');
     if (!origin || origin !== url.origin) {
-      return json({ ok: false, error: 'Cross-site submission blocked.' }, 403);
+      return jsonResponse({ ok: false, error: 'Cross-site submission blocked.' }, 403);
     }
 
     const contentLength = Number(request.headers.get('Content-Length') || 0);
     if (contentLength > 5 * 1024 * 1024) {
-      return json({ ok: false, error: 'Attachments are too large.' }, 413);
+      return jsonResponse({ ok: false, error: 'Attachments are too large.' }, 413);
     }
 
     let form;
     try {
       form = await request.formData();
     } catch {
-      return json({ ok: false, error: 'Invalid form submission.' }, 400);
+      return jsonResponse({ ok: false, error: 'Invalid form submission.' }, 400);
     }
 
     if (clean(form.get('website'), 200)) {
-      return json({ ok: true, reference: 'accepted' });
+      return jsonResponse({ ok: true, reference: 'accepted' });
     }
 
     const started = Number(form.get('formStartedAt') || 0);
     if (!Number.isFinite(started) || Date.now() - started < 1500) {
-      return json({ ok: false, error: 'Please review the form and try again.' }, 400);
+      return jsonResponse({ ok: false, error: 'Please review the form and try again.' }, 400);
     }
 
     const fullName = clean(form.get('fullName'), 120);
@@ -125,7 +133,7 @@ export default {
       !validEmail(email) ||
       (preference === 'Email' && !email)
     ) {
-      return json({ ok: false, error: 'Please correct the required contact and project fields.' }, 400);
+      return jsonResponse({ ok: false, error: 'Please correct the required contact and project fields.' }, 400);
     }
 
     const attachments = [];
@@ -135,12 +143,12 @@ export default {
       if (!(item instanceof File) || !item.size) continue;
 
       if (!ALLOWED_FILE_TYPES.has(item.type)) {
-        return json({ ok: false, error: 'One attachment type is not supported.' }, 400);
+        return jsonResponse({ ok: false, error: 'One attachment type is not supported.' }, 400);
       }
 
       attachmentBytes += item.size;
       if (attachmentBytes > MAX_ATTACHMENT_BYTES) {
-        return json({ ok: false, error: 'Attachments must stay under 4 MB total.' }, 413);
+        return jsonResponse({ ok: false, error: 'Attachments must stay under 4 MB total.' }, 413);
       }
 
       attachments.push({
@@ -167,10 +175,10 @@ export default {
         attachments
       });
 
-      return json({ ok: true, reference: result.messageId });
+      return jsonResponse({ ok: true, reference: result.messageId });
     } catch (error) {
       console.error('Estimate email delivery failed', error?.code || 'unknown');
-      return json({
+      return jsonResponse({
         ok: false,
         error: 'We could not send the request right now. Please call (843) 263-4933 or email ecfoam@outlook.com.'
       }, 503);
