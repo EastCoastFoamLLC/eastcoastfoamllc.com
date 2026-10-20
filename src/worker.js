@@ -53,7 +53,7 @@ export default {
     const url = new URL(request.url);
     const siteHostname = url.hostname;
     const withSiteHsts = (response) => {
-      if (siteHostname !== 'eastcoastfoamllc.com' && siteHostname !== 'www.eastcoastfoamllc.com') return response;
+      if (url.protocol !== 'https:' || (siteHostname !== 'eastcoastfoamllc.com' && siteHostname !== 'www.eastcoastfoamllc.com')) return response;
       const securedResponse = new Response(response.body, response);
       securedResponse.headers.set('Strict-Transport-Security', 'max-age=31536000');
       return securedResponse;
