@@ -10,6 +10,7 @@
     "dev": "astro dev",
     "check": "astro check",
     "build": "astro build",
+    "test:worker": "node --test tests/worker-hsts.test.js",
     "preview": "astro preview",
     "test:qa": "playwright test",
     "test:qa:update": "playwright test --update-snapshots",
