@@ -35,3 +35,19 @@ test('does not send HSTS on workers.dev previews', async () => {
   assert.equal(response.status, 200);
   assert.equal(response.headers.get('strict-transport-security'), null);
 });
+
+test('does not send HSTS on the HTTP apex redirect', async () => {
+  const response = await worker.fetch(new Request('http://eastcoastfoamllc.com/contact-us'), { ASSETS: assets });
+
+  assert.equal(response.status, 301);
+  assert.equal(response.headers.get('strict-transport-security'), null);
+  assert.equal(response.headers.get('location'), 'https://eastcoastfoamllc.com/contact-us');
+});
+
+test('does not send HSTS on the HTTP www redirect', async () => {
+  const response = await worker.fetch(new Request('http://www.eastcoastfoamllc.com/contact-us'), { ASSETS: assets });
+
+  assert.equal(response.status, 301);
+  assert.equal(response.headers.get('strict-transport-security'), null);
+  assert.equal(response.headers.get('location'), 'https://eastcoastfoamllc.com/contact-us');
+});
