@@ -52,8 +52,9 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const siteHostname = url.hostname;
+    const requestProtocol = url.protocol;
     const withSiteHsts = (response) => {
-      if (url.protocol !== 'https:' || (siteHostname !== 'eastcoastfoamllc.com' && siteHostname !== 'www.eastcoastfoamllc.com')) return response;
+      if (requestProtocol !== 'https:' || (siteHostname !== 'eastcoastfoamllc.com' && siteHostname !== 'www.eastcoastfoamllc.com')) return response;
       const securedResponse = new Response(response.body, response);
       securedResponse.headers.set('Strict-Transport-Security', 'max-age=31536000');
       return securedResponse;
