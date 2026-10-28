@@ -24,8 +24,11 @@ jobs:
           node-version: 24
           package-manager-cache: false
 
-      - name: Generate supported dependency candidate with npm
+      - name: Move direct Wrangler dependency outside reported vulnerable range
         run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund --save-dev wrangler@4.154.0
+
+      - name: Apply normal supported audit fixes without force or overrides
+        run: npm audit fix --package-lock-only --ignore-scripts --no-fund
 
       - name: Install exact generated graph without lifecycle scripts
         run: npm ci --ignore-scripts --no-audit --no-fund
