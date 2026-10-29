@@ -138,8 +138,10 @@ jobs:
             exit 1
           fi
 
-      - name: Report security-header posture
+      - name: Verify security-header posture
         shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           set -euo pipefail
           headers="$RUNNER_TEMP/ecf-headers.txt"
@@ -147,8 +149,37 @@ jobs:
             --user-agent "LDW-Production-Health/1.0" \
             https://eastcoastfoamllc.com/ > "$headers"
 
+          missing=0
           for header in strict-transport-security x-content-type-options content-security-policy referrer-policy; do
             if ! grep -qi "^$header:" "$headers"; then
-              echo "::warning title=Security header not present::$header is not present on the production homepage"
+              if [[ "$EVENT_NAME" == "pull_request" ]]; then
+                echo "::warning title=Security header pending production deploy::$header is not present on current production"
+              else
+                echo "::error title=Security header regression::$header is not present on production"
+                missing=1
+              fi
             fi
           done
+
+          if [[ "$EVENT_NAME" != "pull_request" ]]; then
+            grep -Eqi '^strict-transport-security:.*max-age=15552000' "$headers" || {
+              echo "::error title=HSTS regression::expected 180-day max-age was not found"
+              missing=1
+            }
+            grep -Eqi '^x-content-type-options:[[:space:]]*nosniff' "$headers" || {
+              echo "::error title=Content-type header regression::expected nosniff was not found"
+              missing=1
+            }
+            grep -Eqi '^referrer-policy:[[:space:]]*strict-origin-when-cross-origin' "$headers" || {
+              echo "::error title=Referrer policy regression::expected strict-origin-when-cross-origin was not found"
+              missing=1
+            }
+            grep -Eqi "^content-security-policy:.*default-src 'self'.*object-src 'none'.*frame-ancestors 'none'.*form-action 'self'" "$headers" || {
+              echo "::error title=CSP regression::required default/object/frame/form directives were not found"
+              missing=1
+            }
+          fi
+
+          if [[ "$missing" != "0" ]]; then
+            exit 1
+          fi
