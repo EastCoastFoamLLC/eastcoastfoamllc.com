@@ -1,13 +1,41 @@
 const MAX_ATTACHMENT_BYTES = 4 * 1024 * 1024;
 const ALLOWED_FILE_TYPES = new Set(['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif']);
 
-const json = (body, status = 200) => new Response(JSON.stringify(body), {
+const SECURITY_HEADERS = {
+  'strict-transport-security': 'max-age=15552000',
+  'x-content-type-options': 'nosniff',
+  'referrer-policy': 'strict-origin-when-cross-origin',
+  'content-security-policy': [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "object-src 'none'",
+    "frame-ancestors 'none'",
+    "form-action 'self'",
+    "script-src 'self'",
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: https://*.tile.openstreetmap.org",
+    "connect-src 'self'",
+    "font-src 'self' data:",
+    "manifest-src 'self'",
+    'upgrade-insecure-requests'
+  ].join('; ')
+};
+
+const withSecurityHeaders = (response) => {
+  const protectedResponse = new Response(response.body, response);
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+    protectedResponse.headers.set(name, value);
+  }
+  return protectedResponse;
+};
+
+const json = (body, status = 200) => withSecurityHeaders(new Response(JSON.stringify(body), {
   status,
   headers: {
     'content-type': 'application/json; charset=utf-8',
     'cache-control': 'no-store'
   }
-});
+}));
 
 const clean = (value, max = 500) =>
   String(value ?? '').trim().replace(/[\u0000-\u001F\u007F]/g, '').slice(0, max);
@@ -56,21 +84,21 @@ export default {
         (url.hostname === 'eastcoastfoamllc.com' && url.protocol === 'http:')) {
       url.hostname = 'eastcoastfoamllc.com';
       url.protocol = 'https:';
-      return Response.redirect(url.toString(), 301);
+      return withSecurityHeaders(Response.redirect(url.toString(), 301));
     }
 
     if (url.pathname !== '/api/estimate') {
       const preview = url.hostname.endsWith('.workers.dev');
       if (preview && url.pathname === '/robots.txt') {
-        return new Response('User-agent: *\nDisallow: /\n', { headers: { 'content-type': 'text/plain; charset=utf-8' } });
+        return withSecurityHeaders(new Response('User-agent: *\nDisallow: /\n', { headers: { 'content-type': 'text/plain; charset=utf-8' } }));
       }
       const response = await env.ASSETS.fetch(request);
       if (preview || response.status === 404) {
         const protectedResponse = new Response(response.body, response);
         protectedResponse.headers.set('X-Robots-Tag', 'noindex, nofollow');
-        return protectedResponse;
+        return withSecurityHeaders(protectedResponse);
       }
-      return response;
+      return withSecurityHeaders(response);
     }
 
     if (request.method !== 'POST') {
